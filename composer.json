@@ -1,0 +1,22 @@
+{
+    "name": "usuario/projeto-tcc",
+    "description": "\"description\": \"Sistema de autenticação para Projeto TCC\",",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^11.3"
+    },
+    "license": "\"license\": \"MIT\"",
+    "autoload": {
+        "psr-4": {
+            "Usuario\\ProjetoTcc\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Espedito",
+            "email": "espeditomarques227456@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
