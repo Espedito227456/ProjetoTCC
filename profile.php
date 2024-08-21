@@ -10,15 +10,30 @@ $client->setRedirectUri('http://localhost/ProjetoTCC/callback.php'); // Substitu
 $client->addScope('profile');
 $client->addScope('email');
 
-if (!isset($_SESSION['access_token'])) {
-    header('Location: index.php'); // Redireciona para a página de login se não houver token
+// Verifica se o token de acesso está presente e válido
+if (!isset($_SESSION['access_token']) || $_SESSION['access_token'] === 'expired') {
+    // Redireciona para a página de autorização do Google
+    $authUrl = $client->createAuthUrl();
+    header('Location: ' . filter_var($authUrl, FILTER_SANITIZE_URL));
     exit();
 }
 
+// Configura o token de acesso
 $client->setAccessToken($_SESSION['access_token']);
-$oauth = new Google_Service_Oauth2($client);
-$userInfo = $oauth->userinfo->get();
 
-echo '<h1>Bem-vindo, ' . htmlspecialchars($userInfo->name) . '</h1>';
-echo '<p>Email: ' . htmlspecialchars($userInfo->email) . '</p>';
-echo '<a href="logout.php">Sair</a>';
+// Debug: Verifica se a classe Google_Service_Oauth2 está carregada
+if (class_exists('Google_Service_Oauth2')) {
+    //echo 'Google_Service_Oauth2 está carregada.';
+} else {
+    //echo 'Google_Service_Oauth2 não está carregada.';
+}
+
+try {
+    $oauth = new Google_Service_Oauth2($client);
+    $userInfo = $oauth->userinfo->get();
+    echo '<h1>Bem-vindo, ' . htmlspecialchars($userInfo->name) . '</h1>';
+    echo '<p>Email: ' . htmlspecialchars($userInfo->email) . '</p>';
+    echo '<a href="logout.php">Sair</a>';
+} catch (Exception $e) {
+    echo 'Erro ao obter informações do usuário: ' . $e->getMessage();
+}

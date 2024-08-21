@@ -14,7 +14,7 @@ $authUrl = $client->createAuthUrl();
 
 if (isset($_SESSION['access_token']) && $_SESSION['access_token']) {
     // Usuário já está autenticado
-    header('Location: profile.php'); // Redireciona para a página de perfil ou onde desejar
+    header('Location: index.php'); // Redireciona para a página de perfil ou onde desejar
     exit();
 } else {
     // Mostra o link para iniciar o login com Google

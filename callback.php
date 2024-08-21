@@ -5,10 +5,6 @@ require_once 'vendor/autoload.php'; // Certifique-se de que a biblioteca do Goog
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Mensagens de debug para verificar variáveis de ambiente
-echo 'Client ID: ' . htmlspecialchars($_ENV['GOOGLE_CLIENT_ID']) . '<br>';
-echo 'Client Secret: ' . htmlspecialchars($_ENV['GOOGLE_CLIENT_SECRET']) . '<br>';
-
 session_start(); // Inicia a sessão
 
 // Configuração do cliente OAuth2 do Google
@@ -43,6 +39,6 @@ if (isset($_GET['code'])) {
     }
 } else {
     // Se não houver código, redireciona para a página inicial
-    header('Location: index.php');
+    header('Location: profile.php');
     exit();
 }
