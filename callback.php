@@ -1,12 +1,20 @@
 <?php
 require_once 'vendor/autoload.php'; // Certifique-se de que a biblioteca do Google está instalada
 
+// Carregar variáveis de ambiente do arquivo .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+// Mensagens de debug para verificar variáveis de ambiente
+echo 'Client ID: ' . htmlspecialchars($_ENV['GOOGLE_CLIENT_ID']) . '<br>';
+echo 'Client Secret: ' . htmlspecialchars($_ENV['GOOGLE_CLIENT_SECRET']) . '<br>';
+
 session_start(); // Inicia a sessão
 
 // Configuração do cliente OAuth2 do Google
 $client = new Google_Client();
-$client->setClientId(getenv('GOOGLE_CLIENT_ID')); // Pegue o Client ID da variável de ambiente
-$client->setClientSecret(getenv('GOOGLE_CLIENT_SECRET')); // Pegue o Client Secret da variável de ambiente
+$client->setClientId($_ENV['GOOGLE_CLIENT_ID']); // Pegue o Client ID da variável de ambiente
+$client->setClientSecret($_ENV['GOOGLE_CLIENT_SECRET']); // Pegue o Client Secret da variável de ambiente
 $client->setRedirectUri('http://localhost/ProjetoTCC/callback.php'); // Substitua pela URL do seu callback
 $client->addScope('profile');
 $client->addScope('email');
@@ -38,6 +46,3 @@ if (isset($_GET['code'])) {
     header('Location: index.php');
     exit();
 }
-
-echo getenv('GOOGLE_CLIENT_ID');
-echo getenv('GOOGLE_CLIENT_SECRET');
